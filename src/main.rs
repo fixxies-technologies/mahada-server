@@ -9,6 +9,7 @@ mod common;
 mod databases;
 mod events;
 mod note;
+mod notification;
 mod security;
 mod sse;
 mod user;
@@ -19,8 +20,12 @@ async fn main() -> Result<(), std::io::Error> {
 
     let router = Router::new()
         .route("/", get(async || "Mahada is live".to_string()))
-        // .nest("/notes", note::routes::router())
-        // .nest("/sse", sse::routes::router())
+        .nest("/notes", note::routes::router(state.clone()))
+        .nest(
+            "/notifications",
+            notification::routes::router(state.clone()),
+        )
+        .nest("/sse", sse::routes::router(state.clone()))
         .with_state(state)
         .layer(middleware::from_fn(logging_middleware));
 
