@@ -1,6 +1,5 @@
 /target
 /src/user
 /src/note
-/src/events
 /src/sse
 /src/app_state.rs
